@@ -21,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String HOME_KEY = "home";
     public static final String AWAY_KEY = "away";
+    public static final String IMAGEHOME_KEY = "imageHome";
+    public static final String IMAGEAWAY_KEY = "imageAway";
 
 
     private static final String TAG = MainActivity.class.getCanonicalName();
@@ -60,9 +62,13 @@ public class MainActivity extends AppCompatActivity {
         else {
             String home = homeTeam.getText().toString();
             String away = awayTeam.getText().toString();
+            String imageHome = homeUri.toString();
+            String imageAway = awayUri.toString();
             Intent intent = new Intent(this, MatchActivity.class);
-            intent.putExtra(HOME_KEY, home);
+            intent.putExtra(HOME_KEY, home); //memanggil data
             intent.putExtra(AWAY_KEY, away);
+            intent.putExtra(IMAGEHOME_KEY, imageHome);
+            intent.putExtra(IMAGEAWAY_KEY, imageAway);
             startActivity(intent);
         }
     }
@@ -85,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == HOME_REQUEST_CODE) {
             if (data != null) {
                 try {
-                    Uri homeUri = data.getData();
+                    homeUri = data.getData();
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), homeUri);
                     homeLogo.setImageBitmap(bitmap);
                 } catch (IOException e) {
@@ -97,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
         else if (requestCode == AWAY_REQUEST_CODE) {
             if (data != null) {
                 try {
-                    Uri awayUri = data.getData();
+                    awayUri = data.getData();
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), awayUri);
                     awayLogo.setImageBitmap(bitmap);
                 } catch (IOException e) {

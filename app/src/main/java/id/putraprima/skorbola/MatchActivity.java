@@ -2,9 +2,15 @@ package id.putraprima.skorbola;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.io.IOException;
 
 public class MatchActivity extends AppCompatActivity {
 
@@ -12,6 +18,8 @@ public class MatchActivity extends AppCompatActivity {
     public static final String AWAY_KEY = "away";
     public static final String HOME_SCORE_KEY = "home_score";
     public static final String AWAY_SCORE_KEY = "away_score";
+
+    private int homeScoreValue, awayScoreValue;
 
     private TextView homeText;
     private TextView awayText;
@@ -27,16 +35,30 @@ public class MatchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_match);
 
+        homeImage = findViewById(R.id.home_logo);
+        awayImage = findViewById(R.id.away_logo);
         homeText = findViewById(R.id.txt_home);
         awayText = findViewById(R.id.txt_away);
+
+
         homeScoreText = findViewById(R.id.score_home);
-        homeScoreText = findViewById(R.id.score_away);
+        awayScoreText = findViewById(R.id.score_away);
         Bundle extras = getIntent().getExtras();
+        Uri imageHomeUri = Uri.parse(extras.getString("imageHome"));
+        Uri imageAwayUri = Uri.parse(extras.getString("imageAway"));
         if (extras != null ){
             String home = extras.getString(MainActivity.HOME_KEY);
             String away = extras.getString(MainActivity.AWAY_KEY);
             homeText.setText(home);
             awayText.setText(away);
+            try {
+                Bitmap homeImageBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageHomeUri);
+                Bitmap awayImageBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageAwayUri);
+                homeImage.setImageBitmap(homeImageBitmap);
+                awayImage.setImageBitmap(awayImageBitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
 
@@ -47,4 +69,20 @@ public class MatchActivity extends AppCompatActivity {
         //2.Tombol add score menambahkan satu angka dari angka 0, setiap kali di tekan
         //3.Tombol Cek Result menghitung pemenang dari kedua tim dan mengirim nama pemenang ke ResultActivity, jika seri di kirim text "Draw"
     }
+
+
+    public void handleHomeScore(View view) {
+        homeScoreValue = Integer.valueOf(homeScoreText.getText().toString());
+        homeScoreValue++;
+        homeScoreText.setText(String.valueOf(homeScoreValue));
+    }
+
+
+    public void handleAwayScore(View view) {
+        awayScoreValue = Integer.valueOf(awayScoreText.getText().toString());
+        awayScoreValue++;
+        awayScoreText.setText(String.valueOf(awayScoreValue));
+    }
+
+
 }
