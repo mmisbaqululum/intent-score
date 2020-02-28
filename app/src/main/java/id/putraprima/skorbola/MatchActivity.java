@@ -2,6 +2,7 @@ package id.putraprima.skorbola;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,6 +24,8 @@ public class MatchActivity extends AppCompatActivity {
 
     private TextView homeText;
     private TextView awayText;
+    String homeName;
+    String awayName;
 
     private TextView homeScoreText;
     private TextView awayScoreText;
@@ -85,4 +88,19 @@ public class MatchActivity extends AppCompatActivity {
     }
 
 
+    public void handleResult(View view) {
+        Intent i = new Intent(MatchActivity.this, ResultActivity.class);
+        i.putExtra("homename", homeName);
+        i.putExtra("awayname", awayName);
+
+
+        if (homeScoreValue > awayScoreValue){
+            i.putExtra("End game", "The Winner is" + homeText.getText().toString());
+        } else if (homeScoreValue < awayScoreValue) {
+            i.putExtra("End game", "The Winner is" + awayText.getText().toString());
+        } else {
+            i.putExtra("End game", "Draw");
+        }
+        startActivity(i);
+    }
 }
