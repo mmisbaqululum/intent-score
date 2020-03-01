@@ -1,8 +1,5 @@
 package id.putraprima.skorbola;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -10,10 +7,12 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.IOException;
 
@@ -60,11 +59,13 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Isi Team Terlebih dahulu", Toast.LENGTH_SHORT).show();
         }
         else {
-            String home = homeTeam.getText().toString();
-            String away = awayTeam.getText().toString();
+
             String imageHome = homeUri.toString();
             String imageAway = awayUri.toString();
             Intent intent = new Intent(this, MatchActivity.class);
+            String home = homeTeam.getText().toString();
+            String away = awayTeam.getText().toString();
+
             intent.putExtra(HOME_KEY, home); //memanggil data
             intent.putExtra(AWAY_KEY, away);
             intent.putExtra(IMAGEHOME_KEY, imageHome);
@@ -72,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
     }
+
+
     //3. Ganti Logo Home Team
     public void handleImageHome(View view) {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
