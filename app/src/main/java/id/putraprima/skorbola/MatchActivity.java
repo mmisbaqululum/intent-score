@@ -1,7 +1,5 @@
 package id.putraprima.skorbola;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -11,6 +9,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.io.IOException;
 
 public class MatchActivity extends AppCompatActivity {
@@ -19,8 +19,10 @@ public class MatchActivity extends AppCompatActivity {
 //    public static final String AWAY_KEY = "away";
 //    public static final String HOME_SCORE_KEY = "home_score";
 //    public static final String AWAY_SCORE_KEY = "away_score";
+    private static final String STATUS_KEY = "status";
 
-    private int homeScoreValue, awayScoreValue;
+    private int homeScoreValue = 0;
+    private int awayScoreValue = 0;
     private TextView homeText;
     private TextView awayText;
     private TextView homeScoreText;
@@ -92,12 +94,17 @@ public class MatchActivity extends AppCompatActivity {
 
 
     public void handleResult(View view) {
-        Intent intent = new Intent(this,ResultActivity.class);
-        intent.putExtra("homename", homename);
-        intent.putExtra("awayText", awayname);
-        intent.putExtra("homeScoreText",homeScoreValue);
-        intent.putExtra("awayScoreText",awayScoreValue);
-        startActivity(intent);
+        Intent i = new Intent(this, ResultActivity.class);
+//        String status = null;
+//        i.putExtra(STATUS_KEY, status);
+        if (homeScoreValue == awayScoreValue ){
+            i.putExtra(STATUS_KEY, "Draw");
+        }else if (homeScoreValue > awayScoreValue){
+            i.putExtra(STATUS_KEY,"Name of Winning :"+homeText.getText().toString());
+        }else if (homeScoreValue < awayScoreValue) {
+            i.putExtra(STATUS_KEY, "Name of Winning :" + awayText.getText().toString());
+        }
+        startActivity(i);
 
     }
 }

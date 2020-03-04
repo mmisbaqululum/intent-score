@@ -1,45 +1,24 @@
 package id.putraprima.skorbola;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 public class ResultActivity extends AppCompatActivity {
 
-
-    private TextView result;
-    private TextView pemenang;
+    private static final String STATUS_KEY = "status";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
 
-        result = findViewById(R.id.textView2);
-        pemenang = findViewById(R.id.textView3);
-
+        TextView winner = findViewById(R.id.textView3);
 
         Bundle extras = getIntent().getExtras();
-        int homeResult = extras.getInt("homeScoreText");
-        int awayResult = extras.getInt("awayScoreText");
-        String homename = extras.getString("homename");
-        String awayname = extras.getString("awayname");
-
-
         if (extras != null) {
-            // TODO: display value here
-//            end.setText(extras.getString("end"));
-            if (extras != null) {
-                result.setText(String.valueOf(homeResult)+"-"+String.valueOf(awayResult));
-                if (homeResult > awayResult){
-                    pemenang.setText(homename + " memenangkan pertandingan");
-                } else if (homeResult < awayResult){
-                    pemenang.setText(awayname+" menangkan pertandingan");
-                } else {
-                    pemenang.setText(" pertandingan berakhir imbang");
-                }
-            }
+            winner.setText(extras.getString(STATUS_KEY));
         }
     }
 }
